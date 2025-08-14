@@ -8,6 +8,8 @@ A análise foi conduzida a partir de uma base de dados de vendas de seis lojas, 
 
 ### **Como Usar Este Repositório**
 
+* **Apresentação:** Para visualizar a apresentação da análise em HTML, acesse a [página do projeto](https://gabrielhuervo.github.io/data-analise-acai/)
+
 * **Análise Detalhada:** Para explorar a análise completa, incluindo o código Python, acesse o [notebook deste projeto](notebook_analise.ipynb).
 
 * **Fontes de Dados:** Os dados e os gráficos utilizados estão nos arquivos `vendas.xlsx`, localizados na pasta `src/`.
@@ -41,5 +43,6 @@ Com base nos insights obtidos, as seguintes recomendações foram feitas:
 2. **Otimizar o Canal de Delivery:** Como o delivery representa **50% das vendas**, é um pilar sólido para o negócio. Recomenda-se investir ativamente em marketing e promoções neste canal para transformá-lo em um motor de crescimento ainda maior.
 
 3. **Replicar Campanhas de Sucesso:** Identificamos um pico de vendas em toda a rede no final de 2021. Sugerimos investigar a campanha realizada nesse período para replicá-la e impulsionar o faturamento de forma generalizada.
+
 
 ---
