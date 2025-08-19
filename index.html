@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Comportamento de Clientes em E-commerce</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #E6EDF7;
+            overflow-x: hidden;
+            background: radial-gradient(circle at center, #0A0F1F 0%, #000000 100%);
+        }
+        .title {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 700;
+            font-size: 40px;
+            color: #00C1FF;
+            text-shadow: 0px 2px 4px rgba(0, 193, 255, 0.3);
+        }
+        .highlight {
+            color: #FFD166;
+            font-weight: 600;
+        }
+        .card {
+            background-color: rgba(18, 26, 51, 0.7);
+            border-radius: 12px;
+            border-left: 4px solid #00C1FF;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 193, 255, 0.2);
+        }
+        .icon-container {
+            background: linear-gradient(135deg, #00C1FF 0%, #1A3A7C 100%);
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(0, 193, 255, 0.3);
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #FFD166;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-link:hover,
+        .nav-link.active {
+            color: #FFD166;
+        }
+        .section {
+            min-height: 100vh;
+            padding: 80px 0;
+            position: relative;
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%2300C1FF' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.05;
+        }
+        .decorative-element {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 193, 255, 0.1) 0%, rgba(0, 193, 255, 0) 70%);
+            z-index: -1;
+        }
+        .decorative-element-1 {
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            right: -100px;
+        }
+        .decorative-element-2 {
+            width: 500px;
+            height: 500px;
+            bottom: -150px;
+            left: -100px;
+        }
+        .floating-icon {
+            position: absolute;
+            opacity: 0.15;
+            animation: float 6s infinite ease-in-out;
+            z-index: -1;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .icon-1 {
+            top: 15%;
+            left: 10%;
+            font-size: 80px;
+            animation-delay: 0s;
+        }
+        .icon-2 {
+            top: 70%;
+            left: 15%;
+            font-size: 60px;
+            animation-delay: 1s;
+        }
+        .icon-3 {
+            top: 25%;
+            right: 12%;
+            font-size: 70px;
+            animation-delay: 2s;
+        }
+        .icon-4 {
+            top: 65%;
+            right: 18%;
+            font-size: 90px;
+            animation-delay: 3s;
+        }
+
+        .image-placeholder {
+            border: 2px dashed rgba(0, 193, 255, 0.5);
+            border-radius: 12px;
+            display: flex;
+            flex-wrap: nowrap;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            color: rgba(230, 237, 247, 0.6);
+            background: rgba(18, 26, 51, 0.4);
+            min-height: 300px;
+            width: 100%;
+            padding: 16px;
+            gap: 16px;
+        }
+
+        .image-wrapper {
+            flex: 1;
+            min-width: 150px;
+            max-width: 100%;
+            display: flex; /* Adicionado para tornar o wrapper um container flex */
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
+        }
+
+        .image-wrapper img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain; /* Mantém proporções e ajusta ao espaço */
+        }
+
+    .image-wrapper img {
+        max-width: 100%;
+        height: auto;
+        display: block; /* Remove espaço extra abaixo da imagem */
+}
+        .key-point {
+            display: inline-block;
+            background: rgba(255, 209, 102, 0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin: 2px 0;
+            font-weight: 600;
+        }
+        .opportunity-card {
+            background-color: rgba(18, 26, 51, 0.7);
+            border-radius: 12px;
+            border-left: 4px solid #00C1FF;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .opportunity-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 20px rgba(0, 193, 255, 0.2);
+        }
+        .opportunity-number {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 700;
+            font-size: 120px;
+            color: rgba(0, 193, 255, 0.1);
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            line-height: 1;
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00C1FF, #FFD166);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-opacity-90 backdrop-blur-sm z-50 py-4 px-8" style="background-color: rgba(10, 15, 31, 0.9);">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold text-cyan-400">Análise E-commerce</div>
+            <div class="flex space-x-8">
+                <a href="#home" class="nav-link text-white hover:text-yellow-400">Início</a>
+                <a href="#objective" class="nav-link text-white hover:text-yellow-400">Objetivo</a>
+                <a href="#observations" class="nav-link text-white hover:text-yellow-400">Observações</a>
+                <a href="#analysis1" class="nav-link text-white hover:text-yellow-400">Análise 1</a>
+                <a href="#analysis2" class="nav-link text-white hover:text-yellow-400">Análise 2</a>
+                <a href="#analysis3" class="nav-link text-white hover:text-yellow-400">Análise 3</a>
+                <a href="#conclusion" class="nav-link text-white hover:text-yellow-400">Conclusão</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Home Section -->
+    <section id="home" class="section flex items-center justify-center">
+        <div class="decorative-element decorative-element-1"></div>
+        <div class="decorative-element decorative-element-2"></div>
+        
+        <i class="fas fa-chart-line floating-icon icon-1" style="color: #00C1FF;"></i>
+        <i class="fas fa-users floating-icon icon-2" style="color: #FFD166;"></i>
+        <i class="fas fa-shopping-cart floating-icon icon-3" style="color: #00C1FF;"></i>
+        <i class="fas fa-star floating-icon icon-4" style="color: #FFD166;"></i>
+        
+        <div class="container mx-auto text-center z-10">
+            <h1 class="title text-6xl mb-8">
+                Análise de Comportamento de Clientes <br>em <span class="highlight">E-commerce</span>
+            </h1>
+            <p class="text-2xl mb-12 max-w-3xl mx-auto">
+                Identificando o perfil dos consumidores de <span class="highlight">maior valor</span> e os principais fatores que influenciam a <span class="highlight">satisfação</span> e a <span class="highlight">retenção</span>
+            </p>
+            
+            <div class="flex justify-center space-x-12">
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-r from-cyan-500 to-blue-800 flex items-center justify-center mb-3">
+                        <i class="fas fa-chart-pie text-3xl text-white"></i>
+                    </div>
+                    <span class="text-cyan-400 font-semibold">Análise</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-r from-cyan-500 to-blue-800 flex items-center justify-center mb-3">
+                        <i class="fas fa-user-friends text-3xl text-white"></i>
+                    </div>
+                    <span class="text-cyan-400 font-semibold">Clientes</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-r from-cyan-500 to-blue-800 flex items-center justify-center mb-3">
+                        <i class="fas fa-lightbulb text-3xl text-white"></i>
+                    </div>
+                    <span class="text-cyan-400 font-semibold">Oportunidades</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down text-3xl text-cyan-400"></i>
+        </div>
+        
+        <div class="footer"></div>
+    </section>
+    
+    <!-- Objective Section -->
+    <section id="objective" class="section">
+        <div class="container mx-auto px-8">
+            <h1 class="title mb-12">Objetivo e Perguntas-Chave</h1>
+            
+            <div class="space-y-8">
+                <!-- Objective -->
+                <div class="card p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="icon-container mr-6">
+                            <i class="fas fa-bullseye text-3xl text-white"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-yellow-400">Objetivo da Análise</h2>
+                    </div>
+                    <div class="text-2xl pl-16">
+                        <p>Analisar comportamento dos clientes para identificar <span class="key-point">perfil de maior valor</span> e fatores que influenciam <span class="key-point">satisfação</span> e <span class="key-point">retenção</span></p>
+                    </div>
+                </div>
+                
+                <!-- Questions -->
+                <div class="grid grid-cols-3 gap-8">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="icon-container mr-4">
+                                <i class="fas fa-dollar-sign text-3xl text-white"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-yellow-400">Valor do Cliente</h2>
+                        </div>
+                        <div class="text-xl">
+                            <p class="mb-4">Qual é o perfil dos clientes que mais gastam?</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="key-point">Demográfico</span>
+                                <span class="key-point">Geográfico</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="icon-container mr-4">
+                                <i class="fas fa-sync-alt text-3xl text-white"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-yellow-400">Retenção</h2>
+                        </div>
+                        <div class="text-xl">
+                            <p class="mb-4">Relação entre satisfação e probabilidade de abandono?</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="key-point">Satisfação</span>
+                                <span class="key-point">Fidelização</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="icon-container mr-4">
+                                <i class="fas fa-tag text-3xl text-white"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-yellow-400">Estratégia</h2>
+                        </div>
+                        <div class="text-xl">
+                            <p class="mb-4">Impacto dos descontos na satisfação e valor?</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="key-point">Descontos</span>
+                                <span class="key-point">Valor gerado</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer"></div>
+    </section>
+    
+    <!-- Observations Section -->
+    <section id="observations" class="section">
+        <div class="container mx-auto px-8">
+            <h1 class="title mb-12">Principais Observações da Análise Exploratória</h1>
+            
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Satisfação vs. Retenção -->
+                <div class="card p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="icon-container mr-4">
+                            <i class="fas fa-heart-broken text-3xl text-white"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-yellow-400">Satisfação vs. Retenção</h2>
+                    </div>
+                    <div class="text-xl">
+                        <p>Clientes <span class="highlight">"Insatisfeitos"</span> demoram em média <span class="highlight">43 dias</span> para voltar a comprar</p>
+                        <p class="mt-2">Clientes <span class="highlight">"Satisfeitos"</span> demoram em média <span class="highlight">18 dias</span></p>
+                    </div>
+                </div>
+                
+                <!-- Performance Geográfica -->
+                <div class="card p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="icon-container mr-4">
+                            <i class="fas fa-map-marked-alt text-3xl text-white"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-yellow-400">Performance Geográfica</h2>
+                    </div>
+                    <div class="text-xl">
+                        <p><span class="highlight">San Francisco</span> gera quase <span class="highlight">3x mais receita</span> que Chicago</p>
+                        <p class="mt-2">Praticamente o <span class="highlight">mesmo número de clientes</span> em ambas cidades</p>
+                    </div>
+                </div>
+                
+                <!-- Estratégia de Descontos -->
+                <div class="card p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="icon-container mr-4">
+                            <i class="fas fa-tags text-3xl text-white"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-yellow-400">Estratégia de Descontos</h2>
+                    </div>
+                    <div class="text-xl">
+                        <p>Em Chicago: <span class="highlight">100%</span> dos clientes recebem desconto</p>
+                        <p class="mt-2">Em San Francisco: <span class="highlight">0%</span> recebem desconto</p>
+                    </div>
+                </div>
+                
+                <!-- Perfil Demográfico -->
+                <div class="card p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="icon-container mr-4">
+                            <i class="fas fa-user-friends text-3xl text-white"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-yellow-400">Perfil Demográfico</h2>
+                    </div>
+                    <div class="text-xl">
+                        <p>Público <span class="highlight">masculino</span>: <span class="highlight">~58%</span> do faturamento</p>
+                        <p class="mt-2">Faixa etária <span class="highlight">26 a 35 anos</span>: <span class="highlight">~74%</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer"></div>
+    </section>
+    
+    <!-- Analysis 1 Section -->
+    <section id="analysis1" class="section">
+        <div class="container mx-auto px-8">
+            <h1 class="title mb-12">Análise 1: Satisfação é a Chave para a Retenção</h1>
+            
+            <div class="space-y-8">
+                <!-- Chart placeholder -->
+                <div class="image-placeholder">
+                    <div class="image-wrapper">
+                        <img src="src/retencao_satisfacao.png" alt="">
+                    </div>
+                </div>
+                
+                <!-- Insights -->
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="icon-container mr-4">
+                                <i class="fas fa-lightbulb text-3xl text-white"></i>
+                            </div>
+                            <h2 class="text-3xl font-bold text-yellow-400">Conclusão</h2>
+                        </div>
+                        <div class="text-xl">
+                            <p class="mb-4">O gráfico prova que a <span class="key-point">insatisfação</span> é o principal indicador de abandono.</p>
+                            <p>Quanto menor a satisfação, maior o tempo que o cliente leva para voltar, se é que volta.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="icon-container mr-4">
+                                <i class="fas fa-bullseye text-3xl text-white"></i>
+                            </div>
+                            <h2 class="text-3xl font-bold text-yellow-400">Recomendação</h2>
+                        </div>
+                        <div class="text-xl">
+                            <p class="mb-4">Implementar um sistema <span class="key-point">proativo</span> para identificar e contactar clientes "Insatisfeitos".</p>
+                            <p>Reverter a experiência negativa antes que abandonem a plataforma.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer"></div>
+    </section>
+    
+    <!-- Analysis 2 Section -->
+    <section id="analysis2" class="section">
+        <div class="container mx-auto px-8">
+            <h1 class="title mb-12">Análise 2: A Geografia do Valor</h1>
+            
+            <div class="space-y-8">
+                <!-- Chart placeholder -->
+                <div class="image-placeholder">
+                    <div class=image-wrapper><img src="src/mapa.png" alt=""></div>
+                    <div class=image-wrapper><img src="src/faturamento_qtde_clientes_cidade.png"></div>
+                    <div class=image-wrapper><img src="src/ticket_cidade.png"></div>
+                </div>
+                
+                <!-- Insights -->
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="icon-container mr-4">
+                                <i class="fas fa-lightbulb text-3xl text-white"></i>
+                            </div>
+                            <h2 class="text-3xl font-bold text-yellow-400">Conclusão</h2>
+                        </div>
+                        <div class="text-xl">
+                            <p class="mb-4">O desafio da empresa não é a <span class="key-point">aquisição</span> de clientes (número similar em todas as cidades).</p>
+                            <p>É o <span class="key-point">desenvolvimento do valor</span> desses clientes.</p>
+                            <p class="mt-4">Clientes em San Francisco e Nova York gastam mais no total e compram produtos de maior valor (ticket médio superior).</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="icon-container mr-4">
+                                <i class="fas fa-bullseye text-3xl text-white"></i>
+                            </div>
+                            <h2 class="text-3xl font-bold text-yellow-400">Recomendação</h2>
+                        </div>
+                        <div class="text-xl">
+                            <p class="mb-4">Analisar os <span class="key-point">fatores de sucesso</span> nos mercados de alto valor (mix de produtos, marketing local).</p>
+                            <p>Criar um <span class="key-point">plano piloto</span> para replicar essas estratégias nas cidades de baixo desempenho.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer"></div>
+    </section>
+    
+    <!-- Analysis 3 Section -->
+    <section id="analysis3" class="section">
+        <div class="container mx-auto px-8">
+            <h1 class="title mb-12">Análise 3: O Paradoxo dos Descontos</h1>
+            
+            <div class="space-y-8">
+                <!-- Chart placeholder -->
+                <div class="image-placeholder">
+                    <div class=image-wrapper><img src="src/faturamento_qtde_clientes_cidade.png"></div>
+                    <div class=image-wrapper><img src="src/tabela_desconto.png"></div>
+                </div>
+                
+                <!-- Insights -->
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="icon-container mr-4">
+                                <i class="fas fa-lightbulb text-3xl text-white"></i>
+                            </div>
+                            <h2 class="text-3xl font-bold text-yellow-400">Conclusão</h2>
+                        </div>
+                        <div class="text-xl">
+                            <p class="mb-4">A estratégia de descontos atual é <span class="key-point">ineficaz</span> e <span class="key-point">potencialmente prejudicial</span>.</p>
+                            <p>Os descontos estão concentrados nos mercados de <span class="key-point">menor valor</span> e <span class="key-point">menor satisfação</span>.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="icon-container mr-4">
+                                <i class="fas fa-bullseye text-3xl text-white"></i>
+                            </div>
+                            <h2 class="text-3xl font-bold text-yellow-400">Recomendação</h2>
+                        </div>
+                        <div class="text-xl">
+                            <p class="mb-4"><span class="key-point">Rever urgentemente</span> a estratégia de descontos.</p>
+                            <p>Testar a <span class="key-point">remoção de descontos</span> em Chicago.</p>
+                            <p class="mt-4">Reinvestir o orçamento em ações que aumentem o <span class="key-point">valor percebido</span> da marca.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer"></div>
+    </section>
+    
+    <!-- Conclusion Section -->
+    <section id="conclusion" class="section">
+        <div class="container mx-auto px-8">
+            <h1 class="title mb-12">Conclusão Final</h1>
+            
+            <div class="space-y-8">
+                <!-- Opportunity 1 -->
+                <div class="opportunity-card p-8 flex items-center">
+                    <div class="opportunity-number">1</div>
+                    <div class="icon-container mr-6">
+                        <i class="fas fa-heart text-4xl text-white"></i>
+                    </div>
+                    <div class="z-10">
+                        <h2 class="text-4xl font-bold text-yellow-400 mb-2">Foco na Experiência do Cliente</h2>
+                        <p class="text-xl">A maior oportunidade não está no produto, mas na experiência. É crucial monitorizar a satisfação para evitar que clientes valiosos (especialmente os "Silver") abandonem a plataforma.</p>
+                    </div>
+                </div>
+                
+                <!-- Opportunity 2 -->
+                <div class="opportunity-card p-8 flex items-center">
+                    <div class="opportunity-number">2</div>
+                    <div class="icon-container mr-6">
+                        <i class="fas fa-bullseye text-4xl text-white"></i>
+                    </div>
+                    <div class="z-10">
+                        <h2 class="text-4xl font-bold text-yellow-400 mb-2">Marketing Direcionado (Hiper-segmentação)</h2>
+                        <p class="text-xl">Os recursos de marketing devem ser focados no perfil de cliente ideal já identificado: homens, com cerca de 30 anos, residentes em cidades de alto potencial como Nova York e San Francisco.</p>
+                    </div>
+                </div>
+                
+                <!-- Opportunity 3 -->
+                <div class="opportunity-card p-8 flex items-center">
+                    <div class="opportunity-number">3</div>
+                    <div class="icon-container mr-6">
+                        <i class="fas fa-gem text-4xl text-white"></i>
+                    </div>
+                    <div class="z-10">
+                        <h2 class="text-4xl font-bold text-yellow-400 mb-2">Estratégia de Valor, não de Desconto</h2>
+                        <p class="text-xl">A empresa deve migrar de uma estratégia baseada em descontos (que se mostrou ineficaz) para uma focada em agregar valor e justificar um ticket médio mais alto, seguindo o modelo dos mercados mais bem-sucedidos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer"></div>
+    </section>
+    
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Update active navigation link based on scroll position
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Update progress bar
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+    </script>
+</body>
+</html>
