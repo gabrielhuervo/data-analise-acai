@@ -1,38 +1,36 @@
-# Análise de Comportamento de Clientes em E-commerce
+# Análise de Faturamento e Oportunidades para uma Rede de Açaí
 
-Este projeto de análise de dados explora um dataset sobre o comportamento de clientes numa plataforma de e-commerce. O objetivo é identificar o perfil dos clientes de maior valor, entender os fatores que impulsionam a satisfação e a retenção, e fornecer recomendações estratégicas para a empresa.
+Este projeto de análise de dados explora o histórico de vendas de uma rede de franquias de açaí. O objetivo é identificar padrões e oportunidades estratégicas para aumentar o faturamento e promover o crescimento sustentável do negócio.
 
-A análise foi conduzida utilizando **Python (Pandas)** para a limpeza e exploração inicial dos dados e **Power BI** para a criação de um dashboard interativo com as principais descobertas.
+A análise foi conduzida a partir de uma base de dados de vendas de seis lojas, usando **Python (Pandas) e Tabelas Dinâmicas** para a exploração inicial e **Power BI** para a criação de visualizações de dados e dashboards.
 
 ---
 
 ### **Como Usar Este Repositório**
 
-* **Apresentação:** Para visualizar a apresentação da análise em HTML, acesse a [página do projeto](https://gabrielhuervo.github.io/data-analise-perfis-ecommerce/)
+* **Análise Detalhada:** Para explorar a análise completa, incluindo o código Python, acesse o [notebook deste projeto](notebook_analise.ipynb).
 
-* **Análise Detalhada:** Para explorar a análise completa, incluindo o código Python, aceda ao [notebook deste projeto](notebook_analise.ipynb). E a apresentação
+* **Apresentação:** Para visualizar a apresentação da análise em HTML, acesse a [página do projeto](https://gabrielhuervo.github.io/data-analise-acai/)
 
-* **Dashboard Interativo:** Para uma visão geral dos resultados, aceda ao [dashboard no Power BI](dashboard.pbix).
-
-* **Fontes de Dados:** O dataset original (`customer.csv`) e o dataset limpo (`customer_limpo.csv`) estão disponíveis na pasta `src` neste repositório.
+* **Fontes de Dados:** Os dados e os gráficos utilizados estão nos arquivos `vendas.xlsx`, localizados na pasta `src/`.
 
 ---
 
 ### **1. Problema de Negócio e Perguntas-Chave**
 
-A gestão da empresa procurou entender como poderia aumentar as vendas e a lealdade dos clientes. Para guiar a investigação, foram definidas as seguintes perguntas:
+A equipe de gestão da franquia solicitou uma análise para encontrar oportunidades de crescimento. Para guiar a investigação, foram definidas as seguintes perguntas:
 
-* **Valor do Cliente:** Qual é o perfil (demográfico e geográfico) dos clientes que mais gastam?
+* **Desempenho:** Quais lojas e cidades geram o maior faturamento?
 
-* **Retenção:** Existe uma relação entre o nível de satisfação do cliente e a sua probabilidade de abandonar a plataforma?
+* **Tendências:** Existe sazonalidade nas vendas? O crescimento é consistente entre todas as lojas?
 
-* **Estratégia:** A atual estratégia de descontos está a ter um impacto positivo na satisfação e no valor gerado pelo cliente?
+* **Comportamento do Consumidor:** Qual a proporção de vendas entre consumo no local e delivery? Há variação no mix de produtos vendidos?
 
 ---
 
 ### **2. Principais Insights e Visualizações**
 
-A análise revelou três fatores críticos que governam o comportamento do cliente: a satisfação é o principal motor da retenção, a geografia determina o valor do cliente e a estratégia de descontos atual mostra-se ineficaz. O dashboard criado no Power BI resume visualmente estas descobertas.
+A análise revelou insights importantes sobre a performance das lojas, a estabilidade das vendas e os canais de consumo. As visualizações criadas no Power BI foram cruciais para aprofundar esses pontos.
 
 ---
 
@@ -40,8 +38,10 @@ A análise revelou três fatores críticos que governam o comportamento do clien
 
 Com base nos insights obtidos, as seguintes recomendações foram feitas:
 
-1.  **Foco na Experiência do Cliente:** A insatisfação é o principal indicador de abandono. Recomenda-se implementar um sistema proativo para monitorizar a satisfação, especialmente com clientes "Silver", que representam o "momento da verdade" na jornada de lealdade, para reverter experiências negativas antes que o cliente abandone a plataforma.
+1. **Focar na Qualidade do Serviço:** A principal oportunidade de crescimento está em melhorar a experiência do cliente. As lojas voláteis (como Santos e Rio de Janeiro) devem ser priorizadas para pesquisas de satisfação, usando a consistência de São Paulo como modelo.
 
-2.  **Revisão da Estratégia de Descontos:** A análise revelou um paradoxo onde os mercados de menor valor recebem 100% de desconto, enquanto os de maior valor não recebem nenhum. Recomenda-se testar a remoção de descontos em cidades de baixo desempenho e reinvestir o orçamento em estratégias que aumentem o valor percebido da marca.
+2. **Otimizar o Canal de Delivery:** Como o delivery representa **50% das vendas**, é um pilar sólido para o negócio. Recomenda-se investir ativamente em marketing e promoções neste canal para transformá-lo em um motor de crescimento ainda maior.
 
-3.  **Marketing Direcionado (Hiper-segmentação):** O perfil do cliente ideal foi identificado como um homem, com cerca de 30 anos, residente em São Francisco ou Nova York. Recomenda-se direcionar os esforços de aquisição para este público específico para maximizar o retorno sobre o investimento em marketing.
+3. **Replicar Campanhas de Sucesso:** Identificamos um pico de vendas em toda a rede no final de 2021. Sugerimos investigar a campanha realizada nesse período para replicá-la e impulsionar o faturamento de forma generalizada.
+
+---

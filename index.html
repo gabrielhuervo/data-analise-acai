@@ -3,642 +3,1884 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Análise de Comportamento de Clientes em E-commerce</title>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Análise de Faturamento e Oportunidades para a Rede de Açaí</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+        
         body {
-            font-family: 'Inter', sans-serif;
-            color: #E6EDF7;
+            font-family: 'Quicksand', sans-serif;
+            background-color: #F8F9FA;
+            color: #212529;
             overflow-x: hidden;
-            background: radial-gradient(circle at center, #0A0F1F 0%, #000000 100%);
+            height: auto;
         }
-        .title {
-            font-family: 'IBM Plex Sans', sans-serif;
-            font-weight: 700;
-            font-size: 40px;
-            color: #00C1FF;
-            text-shadow: 0px 2px 4px rgba(0, 193, 255, 0.3);
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 15px 0;
+            transition: all 0.3s ease;
         }
-        .highlight {
-            color: #FFD166;
-            font-weight: 600;
-        }
-        .card {
-            background-color: rgba(18, 26, 51, 0.7);
-            border-radius: 12px;
-            border-left: 4px solid #00C1FF;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 193, 255, 0.2);
-        }
-        .icon-container {
-            background: linear-gradient(135deg, #00C1FF 0%, #1A3A7C 100%);
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
+        
+        .nav-container {
+            max-width: 100%;
+            margin: 0 auto;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            box-shadow: 0 10px 20px rgba(0, 193, 255, 0.3);
+            padding: 0 30px;
         }
-        .nav-link {
+        
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #6A0DAD;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+            white-space: nowrap;
+            margin-right: 12px;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo i {
+            margin-right: 12px;
+            color: #FFD700;
+            font-size: 32px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 10px;
+            white-space: nowrap;
+        }
+        
+        .nav-links li {
             position: relative;
-            transition: color 0.3s ease;
         }
-        .nav-link::after {
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #212529;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 12px 20px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-links a:hover {
+            color: white;
+            background: linear-gradient(135deg, #6A0DAD, #9D4EDD);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 13, 173, 0.3);
+        }
+        
+        .nav-links a.active {
+            color: white;
+            background: linear-gradient(135deg, #6A0DAD, #9D4EDD);
+        }
+        
+        .nav-links i {
+            font-size: 18px;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #6A0DAD;
+        }
+        
+        /* Sections */
+        .section {
+            min-height: auto;
+            padding: 120px 30px 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .section:last-of-type {
+            padding-bottom: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        /* Slide 1 - Title */
+        .title-slide {
+            background: linear-gradient(135deg, rgba(106, 13, 173, 0.05) 0%, rgba(255, 215, 0, 0.05) 100%);
+            text-align: center;
+            flex-direction: column;
+        }
+        
+        .title-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .main-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 64px;
+            font-weight: 700;
+            color: #6A0DAD;
+            margin-bottom: 30px;
+            line-height: 1.2;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 32px;
+            color: #212529;
+            margin-bottom: 50px;
+            font-weight: 500;
+        }
+        
+        .icon-container {
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .acai-icon {
+            font-size: 120px;
+            color: #6A0DAD;
+            position: relative;
+            z-index: 2;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .acai-icon::after {
             content: '';
             position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #FFD166;
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-        }
-        .nav-link:hover,
-        .nav-link.active {
-            color: #FFD166;
-        }
-        .section {
-            min-height: 100vh;
-            padding: 80px 0;
-            position: relative;
-        }
-        .footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 60px;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%2300C1FF' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-            opacity: 0.05;
-        }
-        .decorative-element {
-            position: absolute;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 193, 255, 0.1) 0%, rgba(0, 193, 255, 0) 70%);
+            background: radial-gradient(circle, rgba(106, 13, 173, 0.2) 0%, rgba(255, 215, 0, 0.2) 100%);
+            top: -15px;
+            left: -15px;
             z-index: -1;
+            animation: pulse 2s ease-in-out infinite;
         }
-        .decorative-element-1 {
-            width: 400px;
-            height: 400px;
-            top: -100px;
-            right: -100px;
-        }
-        .decorative-element-2 {
-            width: 500px;
-            height: 500px;
-            bottom: -150px;
-            left: -100px;
-        }
-        .floating-icon {
-            position: absolute;
-            opacity: 0.15;
-            animation: float 6s infinite ease-in-out;
-            z-index: -1;
-        }
+        
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
         }
-        .icon-1 {
-            top: 15%;
-            left: 10%;
-            font-size: 80px;
-            animation-delay: 0s;
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.2); opacity: 0.3; }
         }
-        .icon-2 {
-            top: 70%;
-            left: 15%;
-            font-size: 60px;
-            animation-delay: 1s;
+        
+        /* Slide 2 - Objectives */
+        .objectives-slide {
+            background: linear-gradient(135deg, rgba(106, 13, 173, 0.05) 0%, rgba(255, 215, 0, 0.05) 100%);
         }
-        .icon-3 {
-            top: 25%;
-            right: 12%;
-            font-size: 70px;
-            animation-delay: 2s;
-        }
-        .icon-4 {
-            top: 65%;
-            right: 18%;
-            font-size: 90px;
-            animation-delay: 3s;
-        }
-
-        .image-placeholder {
-            border: 2px dashed rgba(0, 193, 255, 0.5);
-            border-radius: 12px;
+        
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: #6A0DAD;
+            margin-bottom: 50px;
             display: flex;
-            flex-wrap: nowrap;
-            flex-direction: row;
-            justify-content: center;
             align-items: center;
-            color: rgba(230, 237, 247, 0.6);
-            background: rgba(18, 26, 51, 0.4);
-            min-height: 300px;
+            gap: 15px;
+        }
+        
+        .section-title i {
+            font-size: 42px;
+        }
+        
+        .objective-section {
+            background: linear-gradient(135deg, rgba(106, 13, 173, 0.08) 0%, rgba(157, 78, 221, 0.08) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(106, 13, 173, 0.15);
+            border-left: 8px solid #6A0DAD;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .objective-section:hover {
+            transform: translateY(-5px);
+        }
+        
+        .objective-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, transparent 50%, rgba(255, 215, 0, 0.1) 50%);
+        }
+        
+        .objective-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: #6A0DAD;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .objective-title i {
+            font-size: 28px;
+            padding: 12px;
+            background: rgba(106, 13, 173, 0.1);
+            border-radius: 50%;
+            color: #6A0DAD;
+        }
+        
+        .objective-text {
+            font-size: 22px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .question-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 16px;
-            gap: 16px;
+            height: 8px;
         }
-
-        .image-wrapper {
-            flex: 1;
-            min-width: 150px;
-            max-width: 100%;
-            display: flex; /* Adicionado para tornar o wrapper um container flex */
-            justify-content: center; /* Centraliza horizontalmente */
-            align-items: center; /* Centraliza verticalmente */
+        
+        .question-card:nth-child(1)::before {
+            background: linear-gradient(90deg, #6A0DAD, #9D4EDD);
         }
-
-        .image-wrapper img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            object-fit: contain; /* Mantém proporções e ajusta ao espaço */
+        
+        .question-card:nth-child(2)::before {
+            background: linear-gradient(90deg, #9D4EDD, #FFD700);
         }
-
-    .image-wrapper img {
-        max-width: 100%;
-        height: auto;
-        display: block; /* Remove espaço extra abaixo da imagem */
-}
-        .key-point {
-            display: inline-block;
-            background: rgba(255, 209, 102, 0.2);
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin: 2px 0;
+        
+        .question-card:nth-child(3)::before {
+            background: linear-gradient(90deg, #FFD700, #6A0DAD);
+        }
+        
+        .question-category {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .question-card:nth-child(1) .question-category {
+            color: #6A0DAD;
+        }
+        
+        .question-card:nth-child(2) .question-category {
+            color: #9D4EDD;
+        }
+        
+        .question-card:nth-child(3) .question-category {
+            color: #FFD700;
+        }
+        
+        .question-category i {
+            font-size: 32px;
+            padding: 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+        }
+        
+        .question-card:nth-child(1) .question-category i {
+            background: linear-gradient(135deg, rgba(106, 13, 173, 0.1), rgba(157, 78, 221, 0.1));
+            color: #6A0DAD;
+        }
+        
+        .question-card:nth-child(2) .question-category i {
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.1), rgba(255, 215, 0, 0.1));
+            color: #9D4EDD;
+        }
+        
+        .question-card:nth-child(3) .question-category i {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(106, 13, 173, 0.1));
+            color: #FFD700;
+        }
+        
+        .question-text {
+            font-size: 36px;
+            line-height: 1.4;
+            flex-grow: 1;
+            font-weight: 500;
+        }
+        
+        /* Slide 3 - Observations */
+        .observations-slide {
+            background: linear-gradient(135deg, rgba(106, 13, 173, 0.05) 0%, rgba(255, 215, 0, 0.05) 100%);
+        }
+        
+        .observations-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 25px;
+            margin-top: 30px;
+        }
+        
+        .observation-row {
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .observation-row:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .observation-row:nth-child(1) {
+            border-left: 10px solid #6A0DAD;
+        }
+        
+        .observation-row:nth-child(2) {
+            border-left: 10px solid #9D4EDD;
+        }
+        
+        .observation-row:nth-child(3) {
+            border-left: 10px solid #FFD700;
+        }
+        
+        .observation-row:nth-child(4) {
+            border-left: 10px solid #6A0DAD;
+        }
+        
+        .observation-row:nth-child(5) {
+            border-left: 10px solid #9D4EDD;
+        }
+        
+        .metric-cell {
+            width: 25%;
+            padding: 30px;
+            vertical-align: middle;
+        }
+        
+        .metric-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 26px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .observation-row:nth-child(1) .metric-title {
+            color: #6A0DAD;
+        }
+        
+        .observation-row:nth-child(2) .metric-title {
+            color: #9D4EDD;
+        }
+        
+        .observation-row:nth-child(3) .metric-title {
+            color: #FFD700;
+        }
+        
+        .observation-row:nth-child(4) .metric-title {
+            color: #6A0DAD;
+        }
+        
+        .observation-row:nth-child(5) .metric-title {
+            color: #9D4EDD;
+        }
+        
+        .metric-title i {
+            font-size: 32px;
+            padding: 12px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            flex-wrap: nowrap;
+        }
+        
+        .observation-row:nth-child(1) .metric-title i {
+            background: rgba(106, 13, 173, 0.1);
+            color: #6A0DAD;
+        }
+        
+        .observation-row:nth-child(2) .metric-title i {
+            background: rgba(157, 78, 221, 0.1);
+            color: #9D4EDD;
+        }
+        
+        .observation-row:nth-child(3) .metric-title i {
+            background: rgba(255, 215, 0, 0.1);
+            color: #FFD700;
+        }
+        
+        .observation-row:nth-child(4) .metric-title i {
+            background: rgba(106, 13, 173, 0.1);
+            color: #6A0DAD;
+        }
+        
+        .observation-row:nth-child(5) .metric-title i {
+            background: rgba(157, 78, 221, 0.1);
+            color: #9D4EDD;
+        }
+        
+        .observation-cell {
+            padding: 30px;
+            font-size: 22px;
+            line-height: 1.6;
+            vertical-align: middle;
+            text-align: center;
+            margin: auto;
+        }
+        
+        .highlight {
             font-weight: 600;
         }
-        .opportunity-card {
-            background-color: rgba(18, 26, 51, 0.7);
-            border-radius: 12px;
-            border-left: 4px solid #00C1FF;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        
+        .observation-row:nth-child(1) .highlight {
+            color: #6A0DAD;
+        }
+        
+        .observation-row:nth-child(2) .highlight {
+            color: #9D4EDD;
+        }
+        
+        .observation-row:nth-child(3) .highlight {
+            color: #FFD700;
+        }
+        
+        .observation-row:nth-child(4) .highlight {
+            color: #6A0DAD;
+        }
+        
+        .observation-row:nth-child(5) .highlight {
+            color: #9D4EDD;
+        }
+        
+        .revenue-highlight {
+            font-size: 32px;
+            font-weight: 600;
+            color: #6A0DAD;
+        }
+        
+        .comparison {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin: auto;
+            justify-content: center;
+            justify-self: center;
+        }
+        
+        .comparison-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .comparison-value {
+            font-size: 28px;
+            font-weight: 600;
+        }
+        
+        .comparison-label {
+            font-size: 18px;
+            color: #666;
+            margin-top: 8px;
+        }
+        
+        .vs {
+            font-size: 20px;
+            color: #999;
+            font-weight: 500;
+        }
+        
+        .percentage-bar {
+            display: flex;
+            height: 40px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .percentage-local {
+            width: 50.23%;
+            background: linear-gradient(90deg, #6A0DAD, #9D4EDD);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        
+        .percentage-delivery {
+            width: 49.77%;
+            background: linear-gradient(90deg, #9D4EDD, #FFD700);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        
+        /* Analysis Slides */
+        .analysis-slide {
+            background: linear-gradient(135deg, rgba(106, 13, 173, 0.05) 0%, rgba(255, 215, 0, 0.05) 100%);
+        }
+        
+        .analysis-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .chart-section {
+            flex: 1;
+            min-width: 350px;
+            min-height: 0px;
+            max-height: 570px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
             position: relative;
             overflow: hidden;
         }
-        .opportunity-card:hover {
-            transform: translateX(10px);
-            box-shadow: 0 10px 20px rgba(0, 193, 255, 0.2);
-        }
-        .opportunity-number {
-            font-family: 'IBM Plex Sans', sans-serif;
-            font-weight: 700;
-            font-size: 120px;
-            color: rgba(0, 193, 255, 0.1);
+        
+        .chart-section::before {
+            content: '';
             position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, #6A0DAD, #9D4EDD, #FFD700);
+        }
+        
+        .chart-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 26px;
+            font-weight: 600;
+            color: #6A0DAD;
+            margin-bottom: 25px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .chart-title i {
+            font-size: 24px;
+            padding: 8px;
+            background: rgba(106, 13, 173, 0.1);
+            border-radius: 50%;
+            color: #6A0DAD;
+        }
+        
+        .chart-container {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-height: 0;
+        }
+        
+        .chart-image {
+            max-width: 100%;
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        .findings-section {
+            flex: 1;
+            min-width: 350px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pattern-cards, .factor-cards, .insight-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .pattern-card, .factor-card, .insight-card {
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pattern-card:hover, .factor-card:hover, .insight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .pattern-card::before, .factor-card::before, .insight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+        }
+        
+        .pattern-card:nth-child(1)::before, .factor-card:nth-child(1)::before, .insight-card:nth-child(1)::before {
+            background: #6A0DAD;
+        }
+        
+        .pattern-card:nth-child(2)::before, .factor-card:nth-child(2)::before, .insight-card:nth-child(2)::before {
+            background: #9D4EDD;
+        }
+        
+        .pattern-card:nth-child(3)::before, .factor-card:nth-child(3)::before, .insight-card:nth-child(3)::before {
+            background: #FFD700;
+        }
+        
+        .pattern-icon, .factor-icon, .insight-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 25px;
+            flex-shrink: 0;
+        }
+        
+        .pattern-icon i, .factor-icon i, .insight-icon i {
+            font-size: 36px;
+            color: white;
+        }
+        
+        .pattern-content, .factor-content, .insight-content {
+            flex-grow: 1;
+            padding: 15px;
+            border-radius: 15px;
+        }
+        
+        .pattern-title, .factor-title, .insight-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .pattern-description, .factor-description, .insight-description {
+            font-size: 20px;
+            line-height: 1.5;
+        }
+        
+        .stable {
+            background: linear-gradient(135deg, #6A0DAD, #9D4EDD);
+        }
+        
+        .loyal {
+            background: linear-gradient(135deg, #6A0DAD, #9D4EDD);
+        }
+
+        .volatile {
+            background: linear-gradient(135deg, #9D4EDD, #FFD700);
+        }
+        
+        .declining {
+            background: linear-gradient(135deg, #FFD700, #6A0DAD);
+        }
+        
+        .declining i {
+            color: #212529;
+        }
+        
+        .stable .pattern-title, .stable .insight-title {
+            color: #6A0DAD;
+        }
+        
+        .volatile .pattern-title, .volatile .insight-title {
+            color: #9D4EDD;
+        }
+        
+        .declining .pattern-title, .declining .insight-title {
+            color: #FFD700;
+        }
+        
+        .pattern-card:nth-child(1) .pattern-content, .factor-card:nth-child(1) .factor-content, .insight-card:nth-child(1) .insight-content {
+            background: rgba(106, 13, 173, 0.1);
+        }
+        
+        .pattern-card:nth-child(2) .pattern-content, .factor-card:nth-child(2) .factor-content, .insight-card:nth-child(2) .insight-content {
+            background: rgba(157, 78, 221, 0.1);
+        }
+        
+        .pattern-card:nth-child(3) .pattern-content, .factor-card:nth-child(3) .factor-content, .insight-card:nth-child(3) .insight-content {
+            background: rgba(255, 215, 0, 0.1);
+        }
+        
+        .product {
+            background: linear-gradient(135deg, #6A0DAD, #9D4EDD);
+        }
+        
+        .channel {
+            background: linear-gradient(135deg, #9D4EDD, #FFD700);
+        }
+        
+        .product .factor-title {
+            color: #6A0DAD;
+        }
+        
+        .channel .factor-title {
+            color: #9D4EDD;
+        }
+        
+        .conclusion-box {
+            background: linear-gradient(135deg, rgba(106, 13, 173, 0.08) 0%, rgba(157, 78, 221, 0.08) 100%);
+            border-radius: 20px;
+            padding: 35px;
+            margin-top: auto;
+            border-left: 8px solid #6A0DAD;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .conclusion-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, transparent 50%, rgba(255, 215, 0, 0.1) 50%);
+        }
+        
+        .conclusion-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 26px;
+            font-weight: 600;
+            color: #6A0DAD;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .conclusion-title i {
+            font-size: 24px;
+            padding: 10px;
+            background: rgba(106, 13, 173, 0.1);
+            border-radius: 50%;
+            color: #6A0DAD;
+        }
+        
+        .conclusion-text {
+            font-size: 20px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            position: relative;
             z-index: 1;
-            line-height: 1;
         }
-        .scroll-indicator {
+        
+        .recommendation {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(106, 13, 173, 0.15) 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border-left: 6px solid #FFD700;
+        }
+        
+        .recommendation-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: #ff4000;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .recommendation-title i {
+            font-size: 20px;
+        }
+        
+        .recommendation-text {
+            font-size: 20px;
+            line-height: 1.5;
+        }
+        
+        /* Opportunity Cards */
+        .opportunities-container, .recommendations-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .opportunity-card, .recommendation-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            display: flex;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .opportunity-card:hover, .recommendation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .opportunity-card::before, .recommendation-card::before {
+            content: '';
             position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
         }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-20px);}
-            60% {transform: translateY(-10px);}
+        
+        .opportunity-card:nth-child(1)::before, .recommendation-card:nth-child(1)::before {
+            background: #6A0DAD;
         }
+        
+        .opportunity-card:nth-child(2)::before, .recommendation-card:nth-child(2)::before {
+            background: #9D4EDD;
+        }
+        
+        .opportunity-card:nth-child(3)::before, .recommendation-card:nth-child(3)::before {
+            background: #FFD700;
+        }
+        
+        .opportunity-number, .recommendation-number {
+            width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 56px;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .opportunity-icon, .recommendation-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            align-self: center;
+            justify-content: center;
+            margin-right: 30px;
+            margin-left: 30px;
+            flex-shrink: 0;
+        }
+        
+        .opportunity-icon i, .recommendation-icon i {
+            font-size: 48px;
+            color: white;
+        }
+        
+        .opportunity-content, .recommendation-content {
+            flex-grow: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .opportunity-title, .recommendation-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        
+        .opportunity-description, .recommendation-description {
+            font-size: 20px;
+            line-height: 1.5;
+        }
+        
+        .card-1 .opportunity-number, .card-1 .recommendation-number {
+            background: linear-gradient(135deg, #6A0DAD, #9D4EDD);
+        }
+        
+        .card-1 .opportunity-icon, .card-1 .recommendation-icon {
+            background: linear-gradient(135deg, #6A0DAD, #9D4EDD);
+        }
+        
+        .card-1 .opportunity-title, .card-1 .recommendation-title {
+            color: #6A0DAD;
+        }
+        
+        .card-2 .opportunity-number, .card-2 .recommendation-number {
+            background: linear-gradient(135deg, #9D4EDD, #FFD700);
+        }
+        
+        .card-2 .opportunity-icon, .card-2 .recommendation-icon {
+            background: linear-gradient(135deg, #9D4EDD, #FFD700);
+        }
+        
+        .card-2 .opportunity-title, .card-2 .recommendation-title {
+            color: #9D4EDD;
+        }
+        
+        .card-3 .opportunity-number, .card-3 .recommendation-number {
+            background: linear-gradient(135deg, #FFD700, #6A0DAD);
+        }
+        
+        .card-3 .opportunity-icon, .card-3 .recommendation-icon {
+            background: linear-gradient(135deg, #FFD700, #6A0DAD);
+        }
+        
+        .card-3 .opportunity-icon i, .card-3 .recommendation-icon i {
+            color: #212529;
+        }
+        
+        .card-3 .opportunity-title, .card-3 .recommendation-title {
+            color: #FFD700;
+        }
+        
+        /* Final Section */
+        .final-message {
+            margin-top: 50px;
+            background: linear-gradient(135deg, rgba(106, 13, 173, 0.08) 0%, rgba(255, 215, 0, 0.08) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            border-left: 8px solid #6A0DAD;
+            border-right: 8px solid #FFD700;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .final-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, transparent 50%, rgba(106, 13, 173, 0.1) 50%);
+        }
+        
+        .final-message-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: #6A0DAD;
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Gradient Border */
+        .gradient-border {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, #6A0DAD 0%, #9D4EDD 50%, #FFD700 100%);
+        }
+        
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, rgba(106, 13, 173, 0.05) 2px, transparent 2px);
+            background-size: 40px 40px;
+            z-index: -1;
+        }
+        
+        /* Decorative Elements */
+        .decorative-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .decorative-circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.05;
+        }
+        
+        .circle-1 {
+            width: 400px;
+            height: 400px;
+            background: #6A0DAD;
+            top: -150px;
+            right: -150px;
+        }
+        
+        .circle-2 {
+            width: 300px;
+            height: 300px;
+            background: #FFD700;
+            bottom: -100px;
+            left: -100px;
+        }
+        
+        .circle-3 {
+            width: 200px;
+            height: 200px;
+            background: #9D4EDD;
+            top: 30%;
+            right: 5%;
+        }
+        
+        .circle-4 {
+            width: 150px;
+            height: 150px;
+            background: #6A0DAD;
+            bottom: 20%;
+            left: 10%;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .main-title {
+                font-size: 48px;
+            }
+            
+            .subtitle {
+                font-size: 24px;
+            }
+            
+            .section-title {
+                font-size: 36px;
+            }
+            
+            .analysis-container {
+                flex-direction: column;
+            }
+            
+            .observation-row {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .metric-cell {
+                width: 100%;
+            }
+            
+            .comparison {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .section {
+                padding: 100px 20px 60px;
+            }
+            
+            .main-title {
+                font-size: 36px;
+            }
+            
+            .subtitle {
+                font-size: 20px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .questions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .opportunity-card, .recommendation-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .opportunity-number, .recommendation-number {
+                width: 60px;
+                height: 60px;
+                font-size: 32px;
+                border-radius: 50%;
+                margin: 0 auto 20px;
+            }
+            
+            .opportunity-icon, .recommendation-icon {
+                width: 80px;
+                height: 80px;
+                margin: 0 auto 20px;
+            }
+            
+            .opportunity-icon i, .recommendation-icon i {
+                font-size: 36px;
+            }
+        }
+        
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Loading Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Scroll Progress Bar */
         .progress-bar {
             position: fixed;
             top: 0;
             left: 0;
+            width: 0%;
             height: 4px;
-            background: linear-gradient(90deg, #00C1FF, #FFD166);
-            z-index: 1000;
+            background: linear-gradient(90deg, #6A0DAD, #9D4EDD, #FFD700);
+            z-index: 1001;
             transition: width 0.3s ease;
+        }
+
+        .section {
+            min-height: auto !important;
+            padding-bottom: 40px !important;
+        }
+        .section:last-of-type {
+            padding-bottom: 20px !important;
+            margin-bottom: 0 !important;
+        }
+        html {
+            height: 100% !important;
+            overflow-y: hidden;
+        }
+
+        body {
+                height: 100% !important;
+                overflow-y: auto !important;    /* body é o elemento que rola */
+                -webkit-overflow-scrolling: touch;
+                margin: 0 !important;
+        }
+
+        body::-webkit-scrollbar {
+            display: none; /* esconde na engine WebKit/Blink */
         }
     </style>
 </head>
 <body>
-    <div class="progress-bar" id="progressBar"></div>
+    <!-- Progress Bar -->
+    <div class="progress-bar"></div>
     
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full bg-opacity-90 backdrop-blur-sm z-50 py-4 px-8" style="background-color: rgba(10, 15, 31, 0.9);">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="text-xl font-bold text-cyan-400">Análise E-commerce</div>
-            <div class="flex space-x-8">
-                <a href="#home" class="nav-link text-white hover:text-yellow-400">Início</a>
-                <a href="#objective" class="nav-link text-white hover:text-yellow-400">Objetivo</a>
-                <a href="#observations" class="nav-link text-white hover:text-yellow-400">Observações</a>
-                <a href="#analysis1" class="nav-link text-white hover:text-yellow-400">Análise 1</a>
-                <a href="#analysis2" class="nav-link text-white hover:text-yellow-400">Análise 2</a>
-                <a href="#analysis3" class="nav-link text-white hover:text-yellow-400">Análise 3</a>
-                <a href="#conclusion" class="nav-link text-white hover:text-yellow-400">Conclusão</a>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-bowl-food"></i>
+                Rede de Açaí
+            </div>
+            <ul class="nav-links">
+                <li><a href="#title" class="nav-link"><i class="fas fa-home"></i> Início</a></li>
+                <li><a href="#objectives" class="nav-link"><i class="fas fa-bullseye"></i> Objetivos</a></li>
+                <li><a href="#observations" class="nav-link"><i class="fas fa-chart-pie"></i> Observações</a></li>
+                <li><a href="#analysis1" class="nav-link"><i class="fas fa-chart-line"></i> Análise 1</a></li>
+                <li><a href="#analysis2" class="nav-link"><i class="fas fa-magnifying-glass-chart"></i> Análise 2</a></li>
+                <li><a href="#analysis3" class="nav-link"><i class="fas fa-calendar-days"></i> Análise 3</a></li>
+                <li><a href="#conclusions" class="nav-link"><i class="fas fa-trophy"></i> Conclusões</a></li>
+                <li><a href="#recommendations" class="nav-link"><i class="fas fa-chess-queen"></i> Recomendações</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
             </div>
         </div>
     </nav>
-    
-    <!-- Home Section -->
-    <section id="home" class="section flex items-center justify-center">
-        <div class="decorative-element decorative-element-1"></div>
-        <div class="decorative-element decorative-element-2"></div>
-        
-        <i class="fas fa-chart-line floating-icon icon-1" style="color: #00C1FF;"></i>
-        <i class="fas fa-users floating-icon icon-2" style="color: #FFD166;"></i>
-        <i class="fas fa-shopping-cart floating-icon icon-3" style="color: #00C1FF;"></i>
-        <i class="fas fa-star floating-icon icon-4" style="color: #FFD166;"></i>
-        
-        <div class="container mx-auto text-center z-10">
-            <h1 class="title text-6xl mb-8">
-                Análise de Comportamento de Clientes <br>em <span class="highlight">E-commerce</span>
+
+    <!-- Slide 1: Title -->
+    <section id="title" class="section title-slide fade-in">
+        <div class="background-pattern"></div>
+        <div class="decorative-elements">
+            <div class="decorative-circle circle-1"></div>
+            <div class="decorative-circle circle-2"></div>
+        </div>
+        <div class="container">
+            <div class="title-content">
+                <div class="icon-container">
+                    <div class="acai-icon">
+                        <i class="fas fa-bowl-food"></i>
+                    </div>
+                </div>
+                <h1 class="main-title">Análise de Faturamento e Oportunidades para a Rede de Açaí</h1>
+                <h2 class="subtitle">Análise Estratégica para Crescimento do Negócio</h2>
+            </div>
+        </div>
+        <div class="gradient-border"></div>
+    </section>
+
+    <!-- Slide 2: Objectives -->
+    <section id="objectives" class="section objectives-slide fade-in">
+        <div class="background-pattern"></div>
+        <div class="decorative-elements">
+            <div class="decorative-circle circle-3"></div>
+            <div class="decorative-circle circle-4"></div>
+        </div>
+        <div class="container">
+            <h1 class="section-title">
+                <i class="fas fa-bullseye"></i>
+                Objetivos e Perguntas-Chave
             </h1>
-            <p class="text-2xl mb-12 max-w-3xl mx-auto">
-                Identificando o perfil dos consumidores de <span class="highlight">maior valor</span> e os principais fatores que influenciam a <span class="highlight">satisfação</span> e a <span class="highlight">retenção</span>
-            </p>
             
-            <div class="flex justify-center space-x-12">
-                <div class="flex flex-col items-center">
-                    <div class="w-20 h-20 rounded-full bg-gradient-to-r from-cyan-500 to-blue-800 flex items-center justify-center mb-3">
-                        <i class="fas fa-chart-pie text-3xl text-white"></i>
-                    </div>
-                    <span class="text-cyan-400 font-semibold">Análise</span>
+            <div class="objective-section">
+                <h2 class="objective-title">
+                    <i class="fas fa-chart-line"></i>
+                    Objetivo da Análise
+                </h2>
+                <p class="objective-text">Analisar o histórico de vendas da rede para encontrar oportunidades de aumentar o faturamento, identificando padrões, tendências e anomalias para fazer recomendações estratégicas.</p>
+            </div>
+            
+            <h2 class="section-title">
+                <i class="fas fa-question-circle"></i>
+                Perguntas-Chave
+            </h2>
+            <div class="questions-grid">
+                <div class="question-card">
+                    <h3 class="question-category">
+                        <i class="fas fa-store"></i>
+                        Desempenho
+                    </h3>
+                    <p class="question-text">Quais lojas e cidades geram mais faturamento?</p>
                 </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-20 h-20 rounded-full bg-gradient-to-r from-cyan-500 to-blue-800 flex items-center justify-center mb-3">
-                        <i class="fas fa-user-friends text-3xl text-white"></i>
-                    </div>
-                    <span class="text-cyan-400 font-semibold">Clientes</span>
+                
+                <div class="question-card">
+                    <h3 class="question-category">
+                        <i class="fas fa-chart-area"></i>
+                        Tendências
+                    </h3>
+                    <p class="question-text">As vendas variam com a época do ano? O volume está crescendo?</p>
                 </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-20 h-20 rounded-full bg-gradient-to-r from-cyan-500 to-blue-800 flex items-center justify-center mb-3">
-                        <i class="fas fa-lightbulb text-3xl text-white"></i>
-                    </div>
-                    <span class="text-cyan-400 font-semibold">Oportunidades</span>
+                
+                <div class="question-card">
+                    <h3 class="question-category">
+                        <i class="fas fa-users"></i>
+                        Comportamento do Consumidor
+                    </h3>
+                    <p class="question-text">Qual a proporção entre consumo local e delivery?</p>
                 </div>
             </div>
         </div>
-        
-        <div class="scroll-indicator">
-            <i class="fas fa-chevron-down text-3xl text-cyan-400"></i>
-        </div>
-        
-        <div class="footer"></div>
+        <div class="gradient-border"></div>
     </section>
-    
-    <!-- Objective Section -->
-    <section id="objective" class="section">
-        <div class="container mx-auto px-8">
-            <h1 class="title mb-12">Objetivo e Perguntas-Chave</h1>
+
+    <!-- Slide 3: Observations -->
+    <section id="observations" class="section observations-slide fade-in">
+        <div class="background-pattern"></div>
+        <div class="decorative-elements">
+            <div class="decorative-circle circle-1"></div>
+            <div class="decorative-circle circle-2"></div>
+        </div>
+        <div class="container">
+            <h1 class="section-title">
+                <i class="fas fa-chart-pie"></i>
+                Principais Observações da Análise
+            </h1>
             
-            <div class="space-y-8">
-                <!-- Objective -->
-                <div class="card p-8">
-                    <div class="flex items-center mb-6">
-                        <div class="icon-container mr-6">
-                            <i class="fas fa-bullseye text-3xl text-white"></i>
+            <table class="observations-table">
+                <tr class="observation-row">
+                    <td class="metric-cell">
+                        <div class="metric-title">
+                            <i class="fas fa-money-bill-wave"></i>
+                            Faturamento Geral
                         </div>
-                        <h2 class="text-3xl font-bold text-yellow-400">Objetivo da Análise</h2>
-                    </div>
-                    <div class="text-2xl pl-16">
-                        <p>Analisar comportamento dos clientes para identificar <span class="key-point">perfil de maior valor</span> e fatores que influenciam <span class="key-point">satisfação</span> e <span class="key-point">retenção</span></p>
+                    </td>
+                    <td class="observation-cell">
+                        O faturamento total da rede no período foi de <span class="revenue-highlight">R$ 584.864,00</span>
+                    </td>
+                </tr>
+                
+                <tr class="observation-row">
+                    <td class="metric-cell">
+                        <div class="metric-title">
+                            <i class="fas fa-store"></i>
+                            Performance/Loja
+                        </div>
+                    </td>
+                    <td class="observation-cell">
+                        <div class="comparison">
+                            <div class="comparison-item">
+                                <div class="comparison-value" style="color: #9D4EDD;">R$ 112.379,00</div>
+                                <div class="comparison-label">Santos (maior)</div>
+                            </div>
+                            <div class="vs">VS</div>
+                            <div class="comparison-item">
+                                <div class="comparison-value" style="color: #6A0DAD;">R$ 69.592,00</div>
+                                <div class="comparison-label">Niterói (menor)</div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr class="observation-row">
+                    <td class="metric-cell">
+                        <div class="metric-title">
+                            <i class="fas fa-balance-scale"></i>
+                            Estabilidade
+                        </div>
+                    </td>
+                    <td class="observation-cell">
+                        A loja de <span class="highlight">São Paulo</span> foi a mais estável em 2022, com uma média mensal consistente de <span class="highlight">R$ 4.277,67</span>
+                    </td>
+                </tr>
+                
+                <tr class="observation-row">
+                    <td class="metric-cell">
+                        <div class="metric-title">
+                            <i class="fas fa-chart-line"></i>
+                            Crescimento
+                        </div>
+                    </td>
+                    <td class="observation-cell">
+                        As vendas gerais da rede cresceram significativamente a partir de 2022, mas as lojas de <span class="highlight">Santos e Rio de Janeiro</span> não acompanharam esse crescimento.
+                    </td>
+                </tr>
+                
+                <tr class="observation-row">
+                    <td class="metric-cell">
+                        <div class="metric-title">
+                            <i class="fas fa-shopping-cart"></i>
+                            Canal de Venda
+                        </div>
+                    </td>
+                    <td class="observation-cell">
+                        As vendas são divididas de forma quase igual entre <span class="highlight">consumo no local (50,23%) e delivery (49,77%)</span> em todas as lojas.
+                        <div class="percentage-bar">
+                            <div class="percentage-local">50,23%</div>
+                            <div class="percentage-delivery">49,77%</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="gradient-border"></div>
+    </section>
+
+    <!-- Slide 4: Analysis 1 -->
+    <section id="analysis1" class="section analysis-slide fade-in">
+        <div class="background-pattern"></div>
+        <div class="decorative-elements">
+            <div class="decorative-circle circle-3"></div>
+            <div class="decorative-circle circle-4"></div>
+        </div>
+        <div class="container">
+            <h1 class="section-title">
+                <i class="fas fa-chart-line"></i>
+                Análise 1: Performance por Loja
+            </h1>
+            
+            <div class="analysis-container">
+                <div class="chart-section">
+                    <h2 class="chart-title">
+                        <i class="fas fa-chart-area"></i>
+                        Faturamento por Cidade ao Longo do Tempo
+                    </h2>
+                    <div class="chart-container">
+                        <img src="src/faturamento_cidade.png" alt="Gráfico de faturamento por cidade" class="chart-image">
                     </div>
                 </div>
+
+
                 
-                <!-- Questions -->
-                <div class="grid grid-cols-3 gap-8">
-                    <div class="card p-8">
-                        <div class="flex items-center mb-6">
-                            <div class="icon-container mr-4">
-                                <i class="fas fa-dollar-sign text-3xl text-white"></i>
+                <div class="findings-section">
+                    <div class="pattern-cards">
+                        <div class="pattern-card">
+                            <div class="pattern-icon stable">
+                                <i class="fas fa-check-circle"></i>
                             </div>
-                            <h2 class="text-2xl font-bold text-yellow-400">Valor do Cliente</h2>
+                            <div class="pattern-content">
+                                <h3 class="pattern-title">São Paulo</h3>
+                                <p class="pattern-description">Loja mais <span class="highlight">estável</span> em 2022, com média mensal consistente de R$ 4.277,67</p>
+                            </div>
                         </div>
-                        <div class="text-xl">
-                            <p class="mb-4">Qual é o perfil dos clientes que mais gastam?</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="key-point">Demográfico</span>
-                                <span class="key-point">Geográfico</span>
+                        
+                        <div class="pattern-card">
+                            <div class="pattern-icon volatile">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="pattern-content">
+                                <h3 class="pattern-title">Santos</h3>
+                                <p class="pattern-description">Maior faturamento (R$ 112.379,00), mas com <span class="highlight">alta volatilidade</span> e picos de vendas</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pattern-card">
+                            <div class="pattern-icon declining">
+                                <i class="fas fa-arrow-trend-down"></i>
+                            </div>
+                            <div class="pattern-content">
+                                <h3 class="pattern-title">Rio de Janeiro</h3>
+                                <p class="pattern-description">Apresenta <span class="highlight">tendência de declínio</span> ao longo do período analisado</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="card p-8">
-                        <div class="flex items-center mb-6">
-                            <div class="icon-container mr-4">
-                                <i class="fas fa-sync-alt text-3xl text-white"></i>
-                            </div>
-                            <h2 class="text-2xl font-bold text-yellow-400">Retenção</h2>
+                    
+                </div>
+
+
+                    <div class="conclusion-box">
+                        <h3 class="conclusion-title">
+                            <i class="fas fa-lightbulb"></i>
+                            Conclusão
+                        </h3>
+                        <p class="conclusion-text">
+                            A <span class="highlight">estabilidade não tem relação</span> com o faturamento total. A loja de Santos, mesmo faturando mais, tem altos e baixos, o que pode indicar um problema de <span class="highlight">retenção de clientes</span>.
+                        </p>
+                        
+                        <div class="recommendation">
+                            <h4 class="recommendation-title">
+                                <i class="fas fa-bullseye"></i>
+                                Recomendação
+                            </h4>
+                            <p class="recommendation-text">
+                                Focar na qualidade do serviço em lojas com vendas instáveis para construir a lealdade dos clientes.
+                            </p>
                         </div>
-                        <div class="text-xl">
-                            <p class="mb-4">Relação entre satisfação e probabilidade de abandono?</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="key-point">Satisfação</span>
-                                <span class="key-point">Fidelização</span>
+                    </div>
+            </div>
+        </div>
+        <div class="gradient-border"></div>
+    </section>
+
+    <!-- Slide 5: Analysis 2 -->
+    <section id="analysis2" class="section analysis-slide fade-in">
+        <div class="background-pattern"></div>
+        <div class="decorative-elements">
+            <div class="decorative-circle circle-1"></div>
+            <div class="decorative-circle circle-2"></div>
+        </div>
+        <div class="container">
+            <h1 class="section-title">
+                <i class="fas fa-magnifying-glass-chart"></i>
+                Análise 2: Fatores que NÃO Explicam Diferenças
+            </h1>
+            
+            <div class="analysis-container">
+                <div class="chart-section">
+                    <h2 class="chart-title">
+                        <i class="fas fa-bowl-food"></i>
+                        Produtos Mais Vendidos por Cidade
+                    </h2>
+                    <div class="chart-container">
+                        <img src="src/produtos_cidade.png" alt="Gráfico de produtos mais vendidos por cidade" class="chart-image">
+                    </div>
+                </div>
+                
+                <div class="chart-section">
+                    <h2 class="chart-title">
+                        <i class="fas fa-truck"></i>
+                        Proporção de Consumo Local vs. Delivery
+                    </h2>
+                    <div class="chart-container">
+                        <img src="src/metodo_consumo.png" alt="Gráfico de proporção de consumo local vs delivery" class="chart-image">
+                    </div>
+                </div>
+                
+                <div class="findings-section">
+                    <div class="factor-cards">
+                        <div class="factor-card">
+                            <div class="factor-icon product">
+                                <i class="fas fa-blender"></i>
+                            </div>
+                            <div class="factor-content">
+                                <h3 class="factor-title">Mix de Produtos</h3>
+                                <p class="factor-description">Os produtos mais vendidos são <span class="highlight">praticamente os mesmos</span> em todas as lojas da rede</p>
+                            </div>
+                        </div>
+                        
+                        <div class="factor-card">
+                            <div class="factor-icon channel">
+                                <i class="fas fa-mobile-screen"></i>
+                            </div>
+                            <div class="factor-content">
+                                <h3 class="factor-title">Canal de Venda</h3>
+                                <p class="factor-description">A proporção entre consumo local e delivery é <span class="highlight">idêntica</span> em todas as lojas (50% cada)</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="card p-8">
-                        <div class="flex items-center mb-6">
-                            <div class="icon-container mr-4">
-                                <i class="fas fa-tag text-3xl text-white"></i>
-                            </div>
-                            <h2 class="text-2xl font-bold text-yellow-400">Estratégia</h2>
-                        </div>
-                        <div class="text-xl">
-                            <p class="mb-4">Impacto dos descontos na satisfação e valor?</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="key-point">Descontos</span>
-                                <span class="key-point">Valor gerado</span>
-                            </div>
+                    
+                </div>
+                    <div class="conclusion-box">
+                        <h3 class="conclusion-title">
+                            <i class="fas fa-lightbulb"></i>
+                            Conclusão
+                        </h3>
+                        <p class="conclusion-text">
+                            A diferença de desempenho <span class="highlight">não está no produto</span> ou no canal de venda, mas sim na <span class="highlight">operação de cada loja</span>. Fatores como atendimento, gestão e experiência do cliente são os verdadeiros diferenciais.
+                        </p>
+                        
+                        <div class="recommendation">
+                            <h4 class="recommendation-title">
+                                <i class="fas fa-rocket"></i>
+                                Recomendação
+                            </h4>
+                            <p class="recommendation-text">
+                                Como o delivery já representa 50% das vendas, investir em marketing para esse canal pode beneficiar toda a rede e potencializar o crescimento.
+                            </p>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
-        
-        <div class="footer"></div>
+        <div class="gradient-border"></div>
     </section>
-    
-    <!-- Observations Section -->
-    <section id="observations" class="section">
-        <div class="container mx-auto px-8">
-            <h1 class="title mb-12">Principais Observações da Análise Exploratória</h1>
-            
-            <div class="grid grid-cols-2 gap-8">
-                <!-- Satisfação vs. Retenção -->
-                <div class="card p-8">
-                    <div class="flex items-center mb-6">
-                        <div class="icon-container mr-4">
-                            <i class="fas fa-heart-broken text-3xl text-white"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold text-yellow-400">Satisfação vs. Retenção</h2>
-                    </div>
-                    <div class="text-xl">
-                        <p>Clientes <span class="highlight">"Insatisfeitos"</span> demoram em média <span class="highlight">43 dias</span> para voltar a comprar</p>
-                        <p class="mt-2">Clientes <span class="highlight">"Satisfeitos"</span> demoram em média <span class="highlight">18 dias</span></p>
-                    </div>
-                </div>
-                
-                <!-- Performance Geográfica -->
-                <div class="card p-8">
-                    <div class="flex items-center mb-6">
-                        <div class="icon-container mr-4">
-                            <i class="fas fa-map-marked-alt text-3xl text-white"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold text-yellow-400">Performance Geográfica</h2>
-                    </div>
-                    <div class="text-xl">
-                        <p><span class="highlight">San Francisco</span> gera quase <span class="highlight">3x mais receita</span> que Chicago</p>
-                        <p class="mt-2">Praticamente o <span class="highlight">mesmo número de clientes</span> em ambas cidades</p>
-                    </div>
-                </div>
-                
-                <!-- Estratégia de Descontos -->
-                <div class="card p-8">
-                    <div class="flex items-center mb-6">
-                        <div class="icon-container mr-4">
-                            <i class="fas fa-tags text-3xl text-white"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold text-yellow-400">Estratégia de Descontos</h2>
-                    </div>
-                    <div class="text-xl">
-                        <p>Em Chicago: <span class="highlight">100%</span> dos clientes recebem desconto</p>
-                        <p class="mt-2">Em San Francisco: <span class="highlight">0%</span> recebem desconto</p>
-                    </div>
-                </div>
-                
-                <!-- Perfil Demográfico -->
-                <div class="card p-8">
-                    <div class="flex items-center mb-6">
-                        <div class="icon-container mr-4">
-                            <i class="fas fa-user-friends text-3xl text-white"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold text-yellow-400">Perfil Demográfico</h2>
-                    </div>
-                    <div class="text-xl">
-                        <p>Público <span class="highlight">masculino</span>: <span class="highlight">~58%</span> do faturamento</p>
-                        <p class="mt-2">Faixa etária <span class="highlight">26 a 35 anos</span>: <span class="highlight">~74%</span></p>
-                    </div>
-                </div>
-            </div>
+
+    <!-- Slide 6: Analysis 3 -->
+    <section id="analysis3" class="section analysis-slide fade-in">
+        <div class="background-pattern"></div>
+        <div class="decorative-elements">
+            <div class="decorative-circle circle-3"></div>
+            <div class="decorative-circle circle-4"></div>
         </div>
-        
-        <div class="footer"></div>
-    </section>
-    
-    <!-- Analysis 1 Section -->
-    <section id="analysis1" class="section">
-        <div class="container mx-auto px-8">
-            <h1 class="title mb-12">Análise 1: Satisfação é a Chave para a Retenção</h1>
+        <div class="container">
+            <h1 class="section-title">
+                <i class="fas fa-calendar-days"></i>
+                Análise 3: Padrões de Sazonalidade
+            </h1>
             
-            <div class="space-y-8">
-                <!-- Chart placeholder -->
-                <div class="image-placeholder">
-                    <div class="image-wrapper">
-                        <img src="src/retencao_satisfacao.png" alt="">
+            <div class="analysis-container">
+                <div class="chart-section">
+                    <h2 class="chart-title">
+                        <i class="fas fa-chart-area"></i>
+                        Faturamento Mensal por Ano
+                    </h2>
+                    <div class="chart-container">
+                        <img src="src/faturamento_mes.png" alt="Gráfico de faturamento mensal" class="chart-image">
                     </div>
                 </div>
                 
-                <!-- Insights -->
-                <div class="grid grid-cols-2 gap-8">
-                    <div class="card p-8">
-                        <div class="flex items-center mb-6">
-                            <div class="icon-container mr-4">
-                                <i class="fas fa-lightbulb text-3xl text-white"></i>
+                <div class="findings-section">
+                    <div class="insight-cards">
+                        <div class="insight-card">
+                            <div class="insight-icon stable">
+                                <i class="fas fa-chart-line"></i>
                             </div>
-                            <h2 class="text-3xl font-bold text-yellow-400">Conclusão</h2>
+                            <div class="insight-content">
+                                <h3 class="insight-title">Estabilidade Mensal</h3>
+                                <p class="insight-description">O faturamento mensal é <span class="highlight">relativamente estável</span>, sem grandes picos ou quedas ao longo do ano</p>
+                            </div>
                         </div>
-                        <div class="text-xl">
-                            <p class="mb-4">O gráfico prova que a <span class="key-point">insatisfação</span> é o principal indicador de abandono.</p>
-                            <p>Quanto menor a satisfação, maior o tempo que o cliente leva para voltar, se é que volta.</p>
+                        
+                        <div class="insight-card">
+                            <div class="insight-icon loyal">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="insight-content">
+                                <h3 class="insight-title">Base de Clientes Fiel</h3>
+                                <p class="insight-description">A consistência nas vendas indica uma <span class="highlight">base de clientes fiel</span> que não é afetada por fatores sazonais</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="card p-8">
-                        <div class="flex items-center mb-6">
-                            <div class="icon-container mr-4">
-                                <i class="fas fa-bullseye text-3xl text-white"></i>
-                            </div>
-                            <h2 class="text-3xl font-bold text-yellow-400">Recomendação</h2>
-                        </div>
-                        <div class="text-xl">
-                            <p class="mb-4">Implementar um sistema <span class="key-point">proativo</span> para identificar e contactar clientes "Insatisfeitos".</p>
-                            <p>Reverter a experiência negativa antes que abandonem a plataforma.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer"></div>
-    </section>
-    
-    <!-- Analysis 2 Section -->
-    <section id="analysis2" class="section">
-        <div class="container mx-auto px-8">
-            <h1 class="title mb-12">Análise 2: A Geografia do Valor</h1>
-            
-            <div class="space-y-8">
-                <!-- Chart placeholder -->
-                <div class="image-placeholder">
-                    <div class=image-wrapper><img src="src/mapa.png" alt=""></div>
-                    <div class=image-wrapper><img src="src/faturamento_qtde_clientes_cidade.png"></div>
-                    <div class=image-wrapper><img src="src/ticket_cidade.png"></div>
-                </div>
-                
-                <!-- Insights -->
-                <div class="grid grid-cols-2 gap-8">
-                    <div class="card p-8">
-                        <div class="flex items-center mb-6">
-                            <div class="icon-container mr-4">
-                                <i class="fas fa-lightbulb text-3xl text-white"></i>
-                            </div>
-                            <h2 class="text-3xl font-bold text-yellow-400">Conclusão</h2>
-                        </div>
-                        <div class="text-xl">
-                            <p class="mb-4">O desafio da empresa não é a <span class="key-point">aquisição</span> de clientes (número similar em todas as cidades).</p>
-                            <p>É o <span class="key-point">desenvolvimento do valor</span> desses clientes.</p>
-                            <p class="mt-4">Clientes em San Francisco e Nova York gastam mais no total e compram produtos de maior valor (ticket médio superior).</p>
-                        </div>
-                    </div>
                     
-                    <div class="card p-8">
-                        <div class="flex items-center mb-6">
-                            <div class="icon-container mr-4">
-                                <i class="fas fa-bullseye text-3xl text-white"></i>
-                            </div>
-                            <h2 class="text-3xl font-bold text-yellow-400">Recomendação</h2>
-                        </div>
-                        <div class="text-xl">
-                            <p class="mb-4">Analisar os <span class="key-point">fatores de sucesso</span> nos mercados de alto valor (mix de produtos, marketing local).</p>
-                            <p>Criar um <span class="key-point">plano piloto</span> para replicar essas estratégias nas cidades de baixo desempenho.</p>
+                </div>
+                    <div class="conclusion-box">
+                        <h3 class="conclusion-title">
+                            <i class="fas fa-lightbulb"></i>
+                            Conclusão
+                        </h3>
+                        <p class="conclusion-text">
+                            O negócio não depende de fatores sazonais, o que representa uma vantagem competitiva e permite planejamento mais previsível.
+                        </p>
+                        
+                        <div class="recommendation">
+                            <h4 class="recommendation-title">
+                                <i class="fas fa-bullseye"></i>
+                                Recomendação
+                            </h4>
+                            <p class="recommendation-text">
+                                A empresa não precisa focar tanto em promoções para "meses fracos" e pode concentrar seus esforços em estratégias de crescimento mais consistentes ao longo do ano.
+                            </p>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
-        
-        <div class="footer"></div>
+        <div class="gradient-border"></div>
     </section>
-    
-    <!-- Analysis 3 Section -->
-    <section id="analysis3" class="section">
-        <div class="container mx-auto px-8">
-            <h1 class="title mb-12">Análise 3: O Paradoxo dos Descontos</h1>
-            
-            <div class="space-y-8">
-                <!-- Chart placeholder -->
-                <div class="image-placeholder">
-                    <div class=image-wrapper><img src="src/faturamento_qtde_clientes_cidade.png"></div>
-                    <div class=image-wrapper><img src="src/tabela_desconto.png"></div>
-                </div>
-                
-                <!-- Insights -->
-                <div class="grid grid-cols-2 gap-8">
-                    <div class="card p-8">
-                        <div class="flex items-center mb-6">
-                            <div class="icon-container mr-4">
-                                <i class="fas fa-lightbulb text-3xl text-white"></i>
-                            </div>
-                            <h2 class="text-3xl font-bold text-yellow-400">Conclusão</h2>
-                        </div>
-                        <div class="text-xl">
-                            <p class="mb-4">A estratégia de descontos atual é <span class="key-point">ineficaz</span> e <span class="key-point">potencialmente prejudicial</span>.</p>
-                            <p>Os descontos estão concentrados nos mercados de <span class="key-point">menor valor</span> e <span class="key-point">menor satisfação</span>.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="card p-8">
-                        <div class="flex items-center mb-6">
-                            <div class="icon-container mr-4">
-                                <i class="fas fa-bullseye text-3xl text-white"></i>
-                            </div>
-                            <h2 class="text-3xl font-bold text-yellow-400">Recomendação</h2>
-                        </div>
-                        <div class="text-xl">
-                            <p class="mb-4"><span class="key-point">Rever urgentemente</span> a estratégia de descontos.</p>
-                            <p>Testar a <span class="key-point">remoção de descontos</span> em Chicago.</p>
-                            <p class="mt-4">Reinvestir o orçamento em ações que aumentem o <span class="key-point">valor percebido</span> da marca.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+    <!-- Slide 7: Conclusions -->
+    <section id="conclusions" class="section analysis-slide fade-in">
+        <div class="background-pattern"></div>
+        <div class="decorative-elements">
+            <div class="decorative-circle circle-1"></div>
+            <div class="decorative-circle circle-2"></div>
         </div>
-        
-        <div class="footer"></div>
-    </section>
-    
-    <!-- Conclusion Section -->
-    <section id="conclusion" class="section">
-        <div class="container mx-auto px-8">
-            <h1 class="title mb-12">Conclusão Final</h1>
+        <div class="container">
+            <h1 class="section-title">
+                <i class="fas fa-trophy"></i>
+                Conclusões Finais e Oportunidades
+            </h1>
             
-            <div class="space-y-8">
-                <!-- Opportunity 1 -->
-                <div class="opportunity-card p-8 flex items-center">
+            <div class="opportunities-container">
+                <div class="opportunity-card card-1">
                     <div class="opportunity-number">1</div>
-                    <div class="icon-container mr-6">
-                        <i class="fas fa-heart text-4xl text-white"></i>
+                    <div class="opportunity-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
                     </div>
-                    <div class="z-10">
-                        <h2 class="text-4xl font-bold text-yellow-400 mb-2">Foco na Experiência do Cliente</h2>
-                        <p class="text-xl">A maior oportunidade não está no produto, mas na experiência. É crucial monitorizar a satisfação para evitar que clientes valiosos (especialmente os "Silver") abandonem a plataforma.</p>
+                    <div class="opportunity-content">
+                        <h2 class="opportunity-title">Foco no Serviço ao Cliente</h2>
+                        <p class="opportunity-description">
+                            A maior oportunidade não está no produto, mas na <span class="highlight">forma como ele é entregue</span>. Lojas estáveis como São Paulo provavelmente retêm clientes com excelente serviço.
+                        </p>
                     </div>
                 </div>
                 
-                <!-- Opportunity 2 -->
-                <div class="opportunity-card p-8 flex items-center">
+                <div class="opportunity-card card-2">
                     <div class="opportunity-number">2</div>
-                    <div class="icon-container mr-6">
-                        <i class="fas fa-bullseye text-4xl text-white"></i>
+                    <div class="opportunity-icon">
+                        <i class="fas fa-truck-fast"></i>
                     </div>
-                    <div class="z-10">
-                        <h2 class="text-4xl font-bold text-yellow-400 mb-2">Marketing Direcionado (Hiper-segmentação)</h2>
-                        <p class="text-xl">Os recursos de marketing devem ser focados no perfil de cliente ideal já identificado: homens, com cerca de 30 anos, residentes em cidades de alto potencial como Nova York e San Francisco.</p>
+                    <div class="opportunity-content">
+                        <h2 class="opportunity-title">Explorar o Potencial do Delivery</h2>
+                        <p class="opportunity-description">
+                            O delivery já representa <span class="highlight">50% do faturamento</span> da rede. Investir ativamente nesse canal pode transformar essa base sólida em um motor de crescimento.
+                        </p>
                     </div>
                 </div>
                 
-                <!-- Opportunity 3 -->
-                <div class="opportunity-card p-8 flex items-center">
+                <div class="opportunity-card card-3">
                     <div class="opportunity-number">3</div>
-                    <div class="icon-container mr-6">
-                        <i class="fas fa-gem text-4xl text-white"></i>
+                    <div class="opportunity-icon">
+                        <i class="fas fa-rotate-left"></i>
                     </div>
-                    <div class="z-10">
-                        <h2 class="text-4xl font-bold text-yellow-400 mb-2">Estratégia de Valor, não de Desconto</h2>
-                        <p class="text-xl">A empresa deve migrar de uma estratégia baseada em descontos (que se mostrou ineficaz) para uma focada em agregar valor e justificar um ticket médio mais alto, seguindo o modelo dos mercados mais bem-sucedidos.</p>
+                    <div class="opportunity-content">
+                        <h2 class="opportunity-title">Replicar o Sucesso do Passado</h2>
+                        <p class="opportunity-description">
+                            A rede teve um pico de vendas em 2021. Descobrir e <span class="highlight">replicar a campanha de marketing</span> que causou esse crescimento pode impulsionar o faturamento novamente.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="footer"></div>
+        <div class="gradient-border"></div>
     </section>
-    
+
+    <!-- Slide 8: Recommendations -->
+    <section id="recommendations" class="section analysis-slide fade-in">
+        <div class="background-pattern"></div>
+        <div class="decorative-elements">
+            <div class="decorative-circle circle-3"></div>
+            <div class="decorative-circle circle-4"></div>
+        </div>
+        <div class="container">
+            <h1 class="section-title">
+                <i class="fas fa-chess-queen"></i>
+                Recomendações Estratégicas
+            </h1>
+            
+            <div class="recommendations-container">
+                <div class="recommendation-card card-1">
+                    <div class="recommendation-number">1</div>
+                    <div class="recommendation-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="recommendation-content">
+                        <h2 class="recommendation-title">Melhorar a Consistência do Serviço</h2>
+                        <p class="recommendation-description">
+                            Implementar pesquisa de satisfação em <span class="highlight">Santos e Rio de Janeiro</span> para identificar e corrigir problemas que causam instabilidade no faturamento.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card card-2">
+                    <div class="recommendation-number">2</div>
+                    <div class="recommendation-icon">
+                        <i class="fas fa-mobile-screen-button"></i>
+                    </div>
+                    <div class="recommendation-content">
+                        <h2 class="recommendation-title">Investir no Crescimento do Delivery</h2>
+                        <p class="recommendation-description">
+                            Desenvolver <span class="highlight">campanhas e anúncios</span> em aplicativos de entrega para transformar essa base sólida (50% do faturamento) em um motor de crescimento.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card card-3">
+                    <div class="recommendation-number">3</div>
+                    <div class="recommendation-icon">
+                        <i class="fas fa-clone"></i>
+                    </div>
+                    <div class="recommendation-content">
+                        <h2 class="recommendation-title">Replicar Campanhas de Marketing Bem-Sucedidas</h2>
+                        <p class="recommendation-description">
+                            Identificar e <span class="highlight">reutilizar estratégias</span> que geraram o pico de vendas em 2021, pois já se provaram eficazes para aumentar o faturamento.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="final-message">
+                <p class="final-message-text">
+                    O sucesso da rede não está em criar novos produtos, mas em otimizar a operação e a estratégia de marketing.
+                </p>
+            </div>
+        </div>
+        <div class="gradient-border"></div>
+    </section>
+
     <script>
-        // Smooth scrolling for navigation links
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.backgroundColor = 'white';
+                navLinks.style.padding = '20px';
+                navLinks.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+                navLinks.style.borderRadius = '0 0 20px 20px';
+                navLinks.style.gap = '10px';
+            }
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Close mobile menu if open
+                    const navLinks = document.querySelector('.nav-links');
+                    if (window.innerWidth <= 1200 && navLinks.style.display === 'flex') {
+                        navLinks.style.display = 'none';
+                    }
+                }
             });
         });
-        
-        // Update active navigation link based on scroll position
+
+        // Active navigation link highlighting
         window.addEventListener('scroll', () => {
             const sections = document.querySelectorAll('section');
             const navLinks = document.querySelectorAll('.nav-link');
@@ -647,24 +1889,43 @@
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.clientHeight;
-                if (pageYOffset >= (sectionTop - 200)) {
+                if (scrollY >= (sectionTop - 200)) {
                     current = section.getAttribute('id');
                 }
             });
-            
+
             navLinks.forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('href').slice(1) === current) {
+                if (link.getAttribute('href') === `#${current}`) {
                     link.classList.add('active');
                 }
             });
-            
-            // Update progress bar
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById('progressBar').style.width = scrolled + '%';
         });
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            document.querySelector('.progress-bar').style.width = scrollPercent + '%';
+        });
+
+        // Add parallax effect to decorative elements
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.decorative-circle');
+            
+            parallaxElements.forEach(element => {
+                const speed = element.dataset.speed || 0.5;
+                element.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Set initial speeds for parallax elements
+        document.querySelector('.circle-1')?.setAttribute('data-speed', '0.3');
+        document.querySelector('.circle-2')?.setAttribute('data-speed', '0.5');
+        document.querySelector('.circle-3')?.setAttribute('data-speed', '0.4');
+        document.querySelector('.circle-4')?.setAttribute('data-speed', '0.6');
     </script>
 </body>
 </html>

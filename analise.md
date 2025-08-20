@@ -1,70 +1,78 @@
-## Análise de Comportamento de Clientes em E-commerce
+## Análise de Faturamento e Oportunidades para a Rede de Açaí
 
 ### 1. Objetivo da Análise
-O objetivo deste projeto é analisar o comportamento dos clientes da plataforma para identificar o perfil dos consumidores de maior valor e os principais fatores que influenciam a satisfação e a retenção, a fim de fornecer recomendações que impulsionem o crescimento do negócio.
+O objetivo deste projeto é analisar o histórico de vendas da rede para encontrar oportunidades de aumentar o faturamento. O foco é identificar padrões, tendências e anomalias para fazer recomendações estratégicas que impulsionem o crescimento do negócio.
 
 ### 2. Perguntas-Chave
-Para guiar a análise, definimos as seguintes perguntas:
+Para guiar a análise, definimos algumas perguntas importantes:
 
-* **Valor do Cliente:** Qual é o perfil (demográfico e geográfico) dos clientes que mais gastam?
-* **Retenção:** Qual a relação entre o nível de satisfação do cliente e a sua probabilidade de abandonar a plataforma?
-* **Estratégia:** A atual estratégia de descontos está a ter um impacto positivo na satisfação e no valor gerado pelo cliente?
+* **Desempenho:** Quais lojas e cidades geram mais faturamento?
+* **Tendências:** As vendas variam de acordo com a época do ano? O volume de vendas está crescendo com o tempo? Esse crescimento é igual para todas as lojas?
+* **Comportamento do Consumidor:** Qual a proporção de vendas entre consumo no local e delivery? Esse padrão é o mesmo em todas as lojas? Qual produto é o mais vendido?
 
 ---
 
-### 3. Principais Observações da Análise Exploratória
+### 4. Principais Observações da Análise Exploratória
 Após uma análise inicial dos dados, as principais observações foram:
 
 | Métrica | Observação |
 |---|---|
-| **Satisfação vs. Retenção** | Clientes "Insatisfeitos" demoram em média **43 dias** para voltar a comprar, contra **18 dias** dos clientes "Satisfeitos". |
-| **Performance Geográfica** | **San Francisco** gera quase **3x mais receita** que Chicago, com praticamente o mesmo número de clientes. |
-| **Estratégia de Descontos** | Em Chicago, **100%** dos clientes recebem desconto, enquanto em San Francisco, **0%** recebem. |
-| **Perfil Demográfico** | O público **masculino** representa **~58%** do faturamento e a faixa etária de **26 a 35 anos** representa **~74%**. |
+| **Faturamento Geral** | O faturamento total da rede no período foi de aproximadamente **R$ 584.864,00**. |
+| **Performance/Loja** | A loja de **Santos** é a que mais fatura (R$ 112.379,00), enquanto **Niterói** é a que menos fatura (R$ 69.592,00). |
+| **Estabilidade** | A loja de **São Paulo** foi a mais estável em 2022, com uma média mensal consistente de R$ 4.277,67. |
+| **Crescimento** | As vendas gerais da rede cresceram significativamente a partir de 2022, mas as lojas de **Santos e Rio de Janeiro** não acompanharam esse crescimento. |
+| **Canal de Venda** | As vendas são divididas de forma quase igual entre **consumo no local (50,23%) e delivery (49,77%)** em todas as lojas. |
 
-Esses dados serviram de base para uma análise visual mais aprofundada.
+Esses dados serviram de base para uma análise mais aprofundada com gráficos.
 
 ---
 
-### 4. Visualização de Dados e Recomendações
+### 5. Visualização de Dados e Recomendações Estratégicas
+Para aprofundar a análise, foram criados alguns gráficos que ajudaram a responder as perguntas e construir as recomendações finais.
 
-Para aprofundar a análise, foram criados visuais que contam a história por trás dos números e levam a recomendações claras.
+#### Análise 1: Qual a real performance de cada loja?
 
-#### Análise 1: Satisfação é a Chave para a Retenção
+Um gráfico de linhas mostrou o faturamento de cada loja ao longo do tempo.
 
-Um gráfico de barras mostrou a média de dias desde a última compra para cada nível de satisfação.
+[Gráfico de Faturamento por Cidade]
 
-[Espaço para imagem: Gráfico de Retenção por Satisfação]
+O gráfico revelou padrões distintos: a loja de São Paulo é estável, a de Santos é volátil e a do Rio de Janeiro está em declínio. Essa descoberta levou a uma comparação entre a loja mais e menos estável.
 
-* **Conclusão:** O gráfico prova que a insatisfação é o principal indicador de abandono. Quanto menor a satisfação, maior o tempo que o cliente leva para voltar, se é que volta.
-* **Recomendação:** Implementar um sistema proativo para identificar e contactar clientes "Insatisfeitos" para reverter a experiência negativa antes que abandonem a plataforma.
+[Gráfico de Comparação Niterói vs. Santos]
 
-#### Análise 2: A Geografia do Valor
+* **Conclusão:** A estabilidade não tem relação com o faturamento total. A loja de Santos, mesmo faturando mais, tem altos e baixos, o que pode indicar um problema de retenção de clientes.
+* **Recomendação:** Focar na qualidade do serviço em lojas com vendas instáveis para construir a lealdade dos clientes.
 
-Um gráfico comparativo de cidades revelou onde estão os clientes mais valiosos.
+#### Análise 2: Quais fatores NÃO explicam a diferença de performance?
 
-[Espaço para imagem: Gráfico de Faturamento vs. Quantidade de Clientes por Cidade]
+Para entender se o sucesso era resultado do produto ou da forma como ele era vendido, foram analisados o mix de produtos e os canais de venda.
 
-* **Conclusão:** O desafio da empresa não é a aquisição de clientes (o número é similar em todas as cidades), mas o desenvolvimento do valor desses clientes. Clientes em San Francisco e Nova York não só gastam mais no total, como também compram produtos de maior valor (ticket médio superior).
-* **Recomendação:** Analisar os fatores de sucesso nos mercados de alto valor (mix de produtos, marketing local) e criar um plano piloto para replicar essas estratégias nas cidades de baixo desempenho.
+[Gráfico de Produtos Mais Vendidos por Cidade]
 
-#### Análise 3: O Paradoxo dos Descontos
+[Gráfico de Proporção de Consumo Local vs. Delivery por Cidade]
 
-Uma tabela comparativa entre os mercados de maior e menor valor expôs uma falha na estratégia de preços.
+* **Conclusão:** O mix de produtos e a proporção de vendas por delivery são praticamente os mesmos em todas as lojas. Isso sugere que a diferença de desempenho não está no produto ou no canal de venda, mas sim na operação de cada loja.
+* **Recomendação:** Como o delivery já representa 50% das vendas, investir em marketing para esse canal pode beneficiar toda a rede.
 
-[Espaço para imagem: Tabela Comparativa de Descontos]
+#### Análise 3: Existe um padrão de Sazonalidade?
 
-* **Conclusão:** A estratégia de descontos atual é ineficaz e potencialmente prejudicial. Os descontos estão concentrados nos mercados de menor valor e satisfação.
-* **Recomendação:** Rever urgentemente a estratégia de descontos. Testar a remoção de descontos em Chicago e reinvestir o orçamento em ações que aumentem o valor percebido da marca.
+Por fim, foi investigado se as vendas eram influenciadas pela época do ano.
+
+[Gráfico de Faturamento por Mês]
+
+* **Conclusão:** O faturamento mensal é relativamente estável, sem grandes picos ou quedas. Isso mostra que a base de clientes é fiel e o negócio não depende de fatores sazonais.
+* **Recomendação:** A empresa não precisa focar tanto em promoções para "meses fracos" e pode concentrar seus esforços em estratégias de crescimento mais consistentes ao longo do ano.
 
 ---
 
 ### Conclusão Final
 
-A análise dos dados revela três grandes oportunidades para aumentar o faturamento e a lealdade dos clientes:
+A análise dos dados revela três grandes oportunidades para aumentar o faturamento e a estabilidade da rede:
 
-1.  **Foco na Experiência do Cliente:** A maior oportunidade não está no produto, mas na experiência. É crucial monitorizar a satisfação para evitar que clientes valiosos (especialmente os "Silver") abandonem a plataforma.
+1.  **Foco no Serviço ao Cliente:** A maior oportunidade não está no produto, mas na forma como ele é entregue. Lojas mais estáveis, como a de São Paulo, provavelmente retêm clientes com um excelente serviço. A sugestão é começar uma pesquisa de satisfação em Santos e Rio de Janeiro para identificar e corrigir problemas que causam instabilidade no faturamento.
 
-2.  **Marketing Direcionado (Hiper-segmentação):** Os recursos de marketing devem ser focados no perfil de cliente ideal já identificado: homens, com cerca de 30 anos, residentes em cidades de alto potencial como Nova York e San Francisco.
+2.  **Explorar o Potencial do Delivery:** O delivery já representa 50% do faturamento da rede, o que mostra sua importância. Recomenda-se investir ativamente nesse canal com campanhas e anúncios em aplicativos de entrega para transformar essa base sólida em um motor de crescimento.
 
-3.  **Estratégia de Valor, não de Desconto:** A empresa deve migrar de uma estratégia baseada em descontos (que se mostrou ineficaz) para uma focada em agregar valor e justificar um ticket médio mais alto, seguindo o modelo dos mercados mais bem-sucedidos.
+3.  **Replicar o Sucesso do Passado:** A rede teve um pico de vendas em 2021. É fundamental descobrir qual campanha de marketing causou esse crescimento e replicá-la, pois já se provou eficaz para aumentar o faturamento de forma generalizada.
+
+Em resumo, o sucesso da rede não está em criar novos produtos, mas em otimizar a operação e a estratégia de marketing. As recomendações são: **melhorar a consistência do serviço**, **investir no crescimento do delivery** e **replicar campanhas de marketing bem-sucedidas.**
